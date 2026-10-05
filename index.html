@@ -318,6 +318,8 @@
   .btn-secondary, .btn-primary { min-height: 44px; }
   body { padding-bottom: 5.5rem; }   /* room to scroll the nav clear of the fixed mode toggle */
   @media (max-width: 560px) { .sort-cols { grid-template-columns: 1fr; } .cover-title { font-size: clamp(2.6rem,13vw,3.6rem); } }
+
+  .left-note { margin-top: 1rem; padding: 0.9rem 1rem; background: var(--paper); border: 1px solid rgba(var(--ink-c),0.14); border-left: 5px solid var(--a2); font-family: var(--sans); font-size: 0.95rem; font-weight: 600; line-height: 1.5; color: var(--ink); }
 </style>
 </head>
 <body>
@@ -377,9 +379,25 @@ function esc(s){
   });
 }
 function markDone(){ kulaEmbed('completed'); }
-function leave(){ kulaEmbed('advance'); }
+// The Continue button tells the platform to move on. If nothing moves the learner on
+// (the file is open by itself, or the platform does not act on the event), say what to do next.
+const LEFT_NOTE = "This activity is done. Go back to your study pack.";
+let leftTimer = null;
+function clearLeft(){ clearTimeout(leftTimer); const n=document.getElementById("left-note"); if(n) n.remove(); }
+function leave(){
+  kulaEmbed('advance');
+  clearTimeout(leftTimer);
+  leftTimer = setTimeout(()=>{
+    if(document.getElementById("left-note")) return;
+    const n=document.createElement("div");
+    n.id="left-note"; n.className="left-note"; n.setAttribute("role","status"); n.textContent=LEFT_NOTE;
+    document.querySelector(".container").appendChild(n);
+    if(n.scrollIntoView) n.scrollIntoView({block:"nearest", behavior:"smooth"});
+  }, 700);
+}
 
 function setNext(label, enabled, fn){
+  if(fn!==leave) clearLeft();
   nav.classList.remove("hidden");
   backBtn.style.visibility = "hidden";
   nextBtn.style.display = "";
@@ -517,6 +535,7 @@ function renderPick(item){
   drawPick(item);
 }
 function drawPick(item){
+  clearLeft();
   if(!state.plan) state.plan={paper:0, chosen:[]};
   const plan = state.plan, paper = PAPERS[plan.paper];
   const st = state.interState.pick || (state.interState.pick={note:""});
