@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan Builder | Study Smart | Kula Revise</title>
+<title>Sort Your Mistakes | Study Smart | Kula Revise</title>
 <style>
   /* Kula Revise identity: pink ground, deep teal ink.
      Accent one (pink): navigation, progress, option letters, the hook marker, time taken in.
@@ -335,63 +335,23 @@
 </div>
 
 <script>
-const PAPERS = [
-  {
-    "name": "Paper 1",
-    "topics": [
-      { "t": "Origins of the Cold War", "k": "source" },
-      { "t": "Independent Africa: Angola", "k": "source" },
-      { "t": "US Civil Rights Movement", "k": "source" },
-      { "t": "The Cold War: Vietnam", "k": "essay" },
-      { "t": "Independent Africa: the Congo", "k": "essay" },
-      { "t": "Black Power Movement", "k": "essay" }
-    ]
-  },
-  {
-    "name": "Paper 2",
-    "topics": [
-      { "t": "Crisis of Apartheid in the 1980s", "k": "source" },
-      { "t": "The TRC", "k": "source" },
-      { "t": "Globalisation", "k": "source" },
-      { "t": "Black Consciousness", "k": "essay" },
-      { "t": "The Coming of Democracy", "k": "essay" },
-      { "t": "The End of the Cold War", "k": "essay" }
-    ]
-  }
-];
-const CLOSE = {
-  "eyebrow": "Kula Revise · Study Smart",
-  "title": "Your Plan",
-  "intro": "Write this plan down, or take a screenshot. Keep it where you study.",
-  "routes": {
-    "source": {
-      "steps": ["Study Lab", "Practice Lab"],
-      "how": "Do the Study Lab in order. Then do the Practice Lab with your notes closed, and sort every mistake by its cause."
-    },
-    "essay": {
-      "steps": ["Study Lab", "Essay Lab"],
-      "how": "Do the Study Lab in order. Then write the essay in the Essay Lab, read the feedback, and write it again."
-    }
-  },
-  "after": "Then build a plan for the other paper in the same way.",
-  "change": "Change my plan",
-  "finish": "Continue"
-};
 const FLOW = [
   {
-    "type": "pick",
-    "tag": "Your plan",
-    "heading": "Choose your three questions",
-    "prompt": "Tap three topics. You need at least one source-based question and at least one essay.",
-    "kinds": { "source": "Source-based", "essay": "Essay" },
-    "msg": {
-      "count": "Chosen: {n} of 3.",
-      "noEssay": "You have three source-based questions. Swap one for an essay.",
-      "noSource": "You have three essays. Swap one for a source-based question.",
-      "ok": "That works: {s} source-based and {e} essay.",
-      "full": "You already have three. Tap one of them to take it out."
-    },
-    "next": "See my plan"
+    "type": "sort",
+    "chip": "Sort it",
+    "q": "You got these wrong in a Practice Lab. Sort each mistake by its cause.",
+    "cols": ["Did not know it", "Did not answer the question"],
+    "items": [
+      "You gave the wrong year for an event",
+      "The question said quote, and you used your own words",
+      "The question wanted two reasons, and you gave one",
+      "You could not name the leader in the photograph",
+      "It asked how reliable the source is, and you described the source",
+      "You confused two organisations with similar names"
+    ],
+    "answer": [0, 1, 1, 0, 1, 0],
+    "explanation": "The wrong year, the leader and the two organisations are facts you did not know. Go back to the Study Lab lesson for those. In the other three, you knew enough but did not do what the question asked. For those, read the question word and the marks before you answer.",
+    "next": "Continue"
   }
 ];
 
